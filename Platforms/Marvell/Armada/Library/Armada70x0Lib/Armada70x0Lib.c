@@ -15,9 +15,6 @@
 
 #include <Library/ArmLib.h>
 #include <Library/ArmPlatformLib.h>
-#include <Library/MppLib.h>
-#include <Library/MvComPhyLib.h>
-#include <Library/UtmiPhyLib.h>
 #include <Ppi/ArmMpCoreInfo.h>
 
 
@@ -90,13 +87,6 @@ ArmPlatformInitialize (
   IN  UINTN                     MpId
   )
 {
-  if (!ArmPlatformIsPrimaryCore (MpId)) {
-    return RETURN_SUCCESS;
-  }
-
-  MvComPhyInit ();
-  UtmiPhyInit ();
-  MppInitialize ();
   return RETURN_SUCCESS;
 }
 
