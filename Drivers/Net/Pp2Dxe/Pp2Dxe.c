@@ -1079,7 +1079,32 @@ Pp2DxeSnpInstall (
   CopyMem (SnpMode, &Pp2SnpModeTemplate, sizeof (EFI_SIMPLE_NETWORK_MODE));
 
   /* Handle device path of the controller */
+#define IS_SUSE_7040_DEVBOARD
+//#define IS_SUSE_8040_DEVBOARD
+#ifdef IS_SUSE_7040_DEVBOARD
+/*
+ ethaddr=00:50:43:01:76:20
+eth1addr=00:50:43:01:76:21
+eth2addr=00:50:43:01:76:22
+eth3addr=00:00:00:00:51:83
+ */
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[0] = 0x00;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[1] = 0x50;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[2] = 0x43;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[3] = 0x01;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[4] = 0x76;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[5] = 0x20 + Pp2Context->Instance;
+#elif defined(IS_SUSE_8040_DEVBOARD)
+  /* 00:50:43:02:98:10 */
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[0] = 0x00;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[1] = 0x50;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[2] = 0x43;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[3] = 0x02;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[4] = 0x98;
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[5] = 0x10 + Pp2Context->Instance;
+#else
   Pp2DevicePath->Pp2Mac.MacAddress.Addr[5] = Pp2Context->Instance + 1;
+#endif
   Pp2Context->Signature = PP2DXE_SIGNATURE;
   Pp2Context->DevicePath = Pp2DevicePath;
   Pp2DevicePath->Pp2Mac.IfType = SnpMode->IfType;

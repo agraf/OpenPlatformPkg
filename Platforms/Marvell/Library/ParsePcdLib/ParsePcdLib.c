@@ -169,16 +169,20 @@ ParsePcdString (
 {
   BOOLEAN ValueFlag = FALSE;
   CHAR16 *Walker;
+  CHAR16 copy[StrLen(PcdString) + 1];
   UINTN i, Tmp = 0;
+
+  StrCpy(copy, PcdString);
+  copy[StrLen(PcdString)] = 0;
 
   if (ValueTable != NULL) {
     ValueFlag = TRUE;
   }
 
   // Set pointer at the end of PCD string
-  Walker = PcdString + StrLen (PcdString);
+  Walker = copy + StrLen (copy);
   for (i = 0; i < Count; i++) {
-    while ((--Walker) >= PcdString) {
+    while ((--Walker) >= copy) {
       if (*Walker == L';') {
         // Cut off parsed chunk from PCD string by replacing ';' with
         // null-terminator
@@ -197,7 +201,7 @@ ParsePcdString (
         Walker--;
         break;
       }
-      if (Walker == PcdString) {
+      if (Walker == copy) {
         if (ValueFlag) {
           Tmp = StrToUintn ((Walker));
           if (Tmp == (UINTN)(-1)) {

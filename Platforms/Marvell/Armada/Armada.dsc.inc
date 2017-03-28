@@ -470,6 +470,15 @@
   MdeModulePkg/Universal/SetupBrowserDxe/SetupBrowserDxe.inf
   IntelFrameworkModulePkg/Universal/BdsDxe/BdsDxe.inf
 
+  # X86 emulator
+  OptionRomPkg/X86Emulator/X86Emulator.inf
+
+  # PXE boot
+  MdeModulePkg/Universal/Network/UefiPxeBcDxe/UefiPxeBcDxe.inf
+
+  # FAT driver
+  FatPkg/EnhancedFatDxe/Fat.inf
+
   # UEFI application (Shell Embedded Boot Loader)
   ShellPkg/Application/Shell/Shell.inf {
     <LibraryClasses>
