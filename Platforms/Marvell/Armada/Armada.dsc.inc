@@ -218,10 +218,10 @@
 ################################################################################
 
 [PcdsFeatureFlag.common]
-  gEfiMdePkgTokenSpaceGuid.PcdComponentNameDisable|TRUE
-  gEfiMdePkgTokenSpaceGuid.PcdDriverDiagnosticsDisable|TRUE
-  gEfiMdePkgTokenSpaceGuid.PcdComponentName2Disable|TRUE
-  gEfiMdePkgTokenSpaceGuid.PcdDriverDiagnostics2Disable|TRUE
+  #gEfiMdePkgTokenSpaceGuid.PcdComponentNameDisable|TRUE
+  #gEfiMdePkgTokenSpaceGuid.PcdDriverDiagnosticsDisable|TRUE
+  #gEfiMdePkgTokenSpaceGuid.PcdComponentName2Disable|TRUE
+  #gEfiMdePkgTokenSpaceGuid.PcdDriverDiagnostics2Disable|TRUE
 
   #
   # Control what commands are supported from the UI
@@ -398,7 +398,7 @@
   ArmPkg/Drivers/GenericWatchdogDxe/GenericWatchdogDxe.inf
 
   # Platform Initialization
-  Platforms/Marvell/Armada/Drivers/PlatInitDxe/PlatInitDxe.inf
+  OpenPlatformPkg/Platforms/Marvell/Armada/Drivers/PlatInitDxe/PlatInitDxe.inf
 
   # Platform drivers
   OpenPlatformPkg/Drivers/I2c/MvI2cDxe/MvI2cDxe.inf
@@ -471,9 +471,6 @@
   MdeModulePkg/Universal/Disk/PartitionDxe/PartitionDxe.inf
   MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
 
-  # Ext4/ext3/ext2 file system
-  ExtPkg/ExtPkgDxe/Ext.inf
-
   # Application
   EmbeddedPkg/Ebl/Ebl.inf
 
@@ -484,6 +481,7 @@
   IntelFrameworkModulePkg/Universal/BdsDxe/BdsDxe.inf
 
   # X86 emulator
+  UefiCpuPkg/CpuIo2Dxe/CpuIo2Dxe.inf
   OptionRomPkg/X86Emulator/X86Emulator.inf
 
   # PXE boot

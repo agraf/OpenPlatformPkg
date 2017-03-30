@@ -26,7 +26,7 @@
 [Packages]
   MdeModulePkg/MdeModulePkg.dec
   MdePkg/MdePkg.dec
-  Platforms/Marvell/Marvell.dec
+  OpenPlatformPkg/Platforms/Marvell/Marvell.dec
 
 [LibraryClasses]
   TimerLib
