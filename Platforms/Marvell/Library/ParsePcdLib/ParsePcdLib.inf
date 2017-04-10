@@ -43,8 +43,10 @@
   MdeModulePkg/MdeModulePkg.dec
 
 [LibraryClasses]
+  BaseMemoryLib
   ArmLib
   DebugLib
+  MemoryAllocationLib
 
 [Sources.common]
   ParsePcdLib.c

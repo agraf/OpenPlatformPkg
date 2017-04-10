@@ -37,7 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <Uefi.h>
 #include <Library/UefiLib.h>
 #include <Library/DebugLib.h>
-#include <Library/UefiBootServicesTableLib.h>
+#include <Library/MemoryAllocationLib.h>
 
 STATIC
 CHAR16
@@ -160,6 +160,9 @@ StrToUintn (
   }
 }
 
+CHAR16 _tmpbuf[4096];
+CHAR16 *tmpbuf = _tmpbuf;
+
 EFI_STATUS
 ParsePcdString (
   IN  CHAR16 *PcdString,
@@ -174,9 +177,11 @@ ParsePcdString (
   UINTN i, Tmp = 0;
 
   /* Leaking on purpose - pointers to the copy may get used later */
-  gBS->AllocatePool ( EfiRuntimeServicesData,
-                      (StrLen(PcdString) + 1) * sizeof(*copy),
-                      (VOID **) &copy );
+  copy = AllocatePages(EFI_SIZE_TO_PAGES((StrLen(PcdString) + 1) * sizeof(*copy)));
+  if (!copy) {
+    copy = tmpbuf;
+    tmpbuf += (StrLen(PcdString) + 1);
+  }
 
   StrCpy(copy, PcdString);
   copy[StrLen(PcdString)] = 0;
