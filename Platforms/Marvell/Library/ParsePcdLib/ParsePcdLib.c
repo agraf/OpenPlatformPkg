@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <Uefi.h>
 #include <Library/UefiLib.h>
 #include <Library/DebugLib.h>
+#include <Library/UefiBootServicesTableLib.h>
 
 STATIC
 CHAR16
@@ -169,16 +170,25 @@ ParsePcdString (
 {
   BOOLEAN ValueFlag = FALSE;
   CHAR16 *Walker;
+  CHAR16 *copy;
   UINTN i, Tmp = 0;
+
+  /* Leaking on purpose - pointers to the copy may get used later */
+  gBS->AllocatePool ( EfiRuntimeServicesData,
+                      (StrLen(PcdString) + 1) * sizeof(*copy),
+                      (VOID **) &copy );
+
+  StrCpy(copy, PcdString);
+  copy[StrLen(PcdString)] = 0;
 
   if (ValueTable != NULL) {
     ValueFlag = TRUE;
   }
 
   // Set pointer at the end of PCD string
-  Walker = PcdString + StrLen (PcdString);
+  Walker = copy + StrLen (copy);
   for (i = 0; i < Count; i++) {
-    while ((--Walker) >= PcdString) {
+    while ((--Walker) >= copy) {
       if (*Walker == L';') {
         // Cut off parsed chunk from PCD string by replacing ';' with
         // null-terminator
@@ -197,7 +207,7 @@ ParsePcdString (
         Walker--;
         break;
       }
-      if (Walker == PcdString) {
+      if (Walker == copy) {
         if (ValueFlag) {
           Tmp = StrToUintn ((Walker));
           if (Tmp == (UINTN)(-1)) {
